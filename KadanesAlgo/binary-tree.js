@@ -37,7 +37,7 @@ class TreeNode {
 }
 
 let maxSum = Number.MIN_SAFE_INTEGER;
-
+// ------- First approch -------
 function findMaxUtil(root) {
   if (!root) return 0;
 
@@ -59,6 +59,7 @@ function findMaxUtil(root) {
 
 function findMaxSum(root) {
   findMaxUtil(root);
+  //maxPathSum(root)
   return maxSum;
 }
 
@@ -73,3 +74,29 @@ root.right.right.left = new TreeNode(3);
 root.right.right.right = new TreeNode(4);
 
 console.log(findMaxSum(root)); // Outputs: 42
+
+// ---- Secound approch ------
+const maxPathSum = (root) => {
+  let max = -Infinity;
+
+  const findSums = (node) => {
+    // Base case / hit a null
+    if (!node) return 0;
+
+    let left = findSums(node.left),
+      right = findSums(node.right),
+      allSum = left + right + node.val,
+      leftNodeSum = left + node.val,
+      rightNodeSum = right + node.val;
+
+    // Max is all possible combinations
+    max = Math.max(max, node.val, allSum, leftNodeSum, rightNodeSum);
+
+    // Return the MAX path, which can be node.val, left + node.val, or right + node.val
+    return Math.max(leftNodeSum, rightNodeSum, node.val);
+  };
+
+  findSums(root);
+
+  return max;
+};
