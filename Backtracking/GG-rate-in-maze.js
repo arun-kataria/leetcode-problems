@@ -49,64 +49,63 @@ Constraints:
 */
 
 function findPaths(m, n) {
-    let visited = Array.from({ length: n }, () => Array(n).fill(false));
-    let paths = [];
-  
-    function isSafe(x, y) {
-      return (
-        x >= 0 && x < n && y >= 0 && y < n && m[x][y] === 1 && !visited[x][y]
-      );
-    }
-  
-    function findPathUtil(x, y, path) {
-      if (x === n - 1 && y === n - 1) {
-        paths.push(path);
-        //return;
-      }
-  
-      // Mark the current cell as visited
-      visited[x][y] = true;
-  
-      // Moving up
-      if (isSafe(x - 1, y)) {
-        findPathUtil(x - 1, y, path + "U");
-      }
-  
-      // Moving right
-      if (isSafe(x, y + 1)) {
-        findPathUtil(x, y + 1, path + "R");
-      }
-  
-      // Moving down
-      if (isSafe(x + 1, y)) {
-        findPathUtil(x + 1, y, path + "D");
-      }
-  
-      // Moving left
-      if (isSafe(x, y - 1)) {
-        findPathUtil(x, y - 1, path + "L");
-      }
-  
-      // Backtrack from the current cell
-      visited[x][y] = false;
-    }
-  
-    findPathUtil(0, 0, "");
-  
-    if (paths.length === 0) {
-      return -1;
-    } else {
-      return paths.join(" ");
-    }
+  let visited = Array.from({ length: n }, () => Array(n).fill(false));
+  let paths = [];
+
+  function isSafe(x, y) {
+    return (
+      x >= 0 && x < n && y >= 0 && y < n && m[x][y] === 1 && !visited[x][y]
+    );
   }
-  
-  // Example usage:
-  let m = [
-    [1, 0, 0, 0],
-    [1, 1, 0, 1],
-    [1, 1, 0, 0],
-    [0, 1, 1, 1],
-  ];
-  let n = 4;
-  console.log('*** Output  => ', findPaths(m, n););
-  
+
+  function findPathUtil(x, y, path) {
+    if (x === n - 1 && y === n - 1) {
+      paths.push(path);
+      //return;
+    }
+
+    // Mark the current cell as visited
+    visited[x][y] = true;
+
+    // Moving up
+    if (isSafe(x - 1, y)) {
+      findPathUtil(x - 1, y, path + "U");
+    }
+
+    // Moving right
+    if (isSafe(x, y + 1)) {
+      findPathUtil(x, y + 1, path + "R");
+    }
+
+    // Moving down
+    if (isSafe(x + 1, y)) {
+      findPathUtil(x + 1, y, path + "D");
+    }
+
+    // Moving left
+    if (isSafe(x, y - 1)) {
+      findPathUtil(x, y - 1, path + "L");
+    }
+
+    // Backtrack from the current cell
+    visited[x][y] = false;
+  }
+
+  findPathUtil(0, 0, "");
+
+  if (paths.length === 0) {
+    return -1;
+  } else {
+    return paths.join(" ");
+  }
+}
+
+// Example usage:
+let m = [
+  [1, 0, 0, 0],
+  [1, 1, 0, 1],
+  [1, 1, 0, 0],
+  [0, 1, 1, 1],
+];
+let n = 4;
+console.log("*** Output  => ", findPaths(m, n));
